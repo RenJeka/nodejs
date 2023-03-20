@@ -38,7 +38,6 @@ http.createServer((req, res) => {
  */
 function sendPageByRoute(request, response) {
     const route = url.parse(request.url, true).path;
-    console.log(route);
 
     switch (route) {
         case '/':
@@ -58,18 +57,15 @@ function sendPageByRoute(request, response) {
             return ;
         }
         default: {
-            console.log('normal; ', path.join('.', route));
-            console.log('exist; ', fs.existsSync(path.join('.', route)));
-
             if (fs.existsSync(path.join('.', route))) {
-                fs.readFile(path.join('.', route), (error, data) => {
-                    if (error) throw error;
-                    response.setHeader('Content-Type', getMimeType(route));
-                    response.end(data.toString());
-                });
-            }
+                const fileData = fs.readFileSync(path.join('.', route));
 
-            // return '<h2 style="color: darkred">Oops! Page not found!</h2>';
+                response.setHeader('Content-Type', getMimeType(route));
+                response.end(fileData.toString());
+                return;
+            }
+            response.setHeader('Content-Type', 'text/html');
+            response.end('<h2 style="color: darkred">Oops! Page not found!</h2>');
             return;
         }
     }
@@ -78,17 +74,14 @@ function sendPageByRoute(request, response) {
 function modifyData(request, response) {
     let body = [];
     request.on('data', (chunk) => {
-        console.log('chunk: ');
-        console.log(JSON.parse(chunk));
-        body.push(JSON.parse(chunk));
-
+        body.push(JSON.parse(Buffer.from(chunk).toString()));
     }).on('end', () => {
-        // data.push(bodyParser(body));
-        data.push(...body);
-        // console.log('end: ', bodyParser(body));
-        console.log('end: ', body);
 
-        sendPageByRoute(request, response);
+        if (checkAdminAuthorization(...body)) {
+            sendSuccessfulAuthorization(response);
+        } else {
+            sendUnsuccessfulAuthorization(response);
+        }
     });
 
 }
@@ -122,13 +115,18 @@ function getMimeType(route) {
     }
 }
 
-function bodyParser(body) {
-    const entries = [];
-    const splicedBodyArr = body.split('&');
+function checkAdminAuthorization(authData) {
+    return (authData.login === admin_login) && (authData.pass === admin_password);
+}
 
-    splicedBodyArr.forEach((property) => {
-        const entry = property.split('=');
-        entries.push(entry)
-    });
-    return  Object.fromEntries(entries)
+function sendSuccessfulAuthorization(response) {
+    response.setHeader('Content-Type', 'text/plain');
+    response.statusCode = 200;
+    response.end('Authorized successfully!');
+}
+
+function sendUnsuccessfulAuthorization(response) {
+    response.setHeader('Content-Type', 'text/plain');
+    response.statusCode = 401;
+    response.end('Bad credentials!');
 }
