@@ -1,13 +1,12 @@
 const http = require('http');
+const path = require('path');
 const url = require('url');
 const fs = require('fs');
 const port = process.env.PORT || 5000;
 
-const data = [
-    {name: 'dog', age: 3},
-    {name: 'cat', age: 2},
-    {name: 'human', age: 23},
-]
+const admin_login = 'admin';
+const admin_password = '123456';
+
 
 const indexPath = './index.html';
 
@@ -59,7 +58,19 @@ function sendPageByRoute(request, response) {
             return ;
         }
         default: {
-            return '<h2 style="color: darkred">Oops! Page not found!</h2>';
+            console.log('normal; ', path.join('.', route));
+            console.log('exist; ', fs.existsSync(path.join('.', route)));
+
+            if (fs.existsSync(path.join('.', route))) {
+                fs.readFile(path.join('.', route), (error, data) => {
+                    if (error) throw error;
+                    response.setHeader('Content-Type', getMimeType(route));
+                    response.end(data.toString());
+                });
+            }
+
+            // return '<h2 style="color: darkred">Oops! Page not found!</h2>';
+            return;
         }
     }
 }
@@ -75,10 +86,40 @@ function modifyData(request, response) {
         // data.push(bodyParser(body));
         data.push(...body);
         // console.log('end: ', bodyParser(body));
-        
+        console.log('end: ', body);
+
         sendPageByRoute(request, response);
     });
 
+}
+
+/**
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+ * @param route
+ * @returns {string} MIME type
+ */
+function getMimeType(route) {
+    switch (path.parse(route).ext) {
+        case '.ico': {
+            return 'image/x-icon';
+        }
+
+        case '.png': {
+            return 'image/png';
+        }
+
+        case '.css': {
+            return 'text/css';
+        }
+
+        case '.html': {
+            return 'text/html';
+        }
+
+        default: {
+            return 'text/plain'
+        }
+    }
 }
 
 function bodyParser(body) {
