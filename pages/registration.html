@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="pico.min.css">
+    <link rel="stylesheet" href="common.css">
+    <title>Registration</title>
+</head>
+
+    <body>
+
+
+
+        <div class="container">
+            <header>
+                <h1>Registration</h1>
+                <nav aria-label="breadcrumb">
+                    <ul>
+                        <li><a href="/login.html">Log-in</a></li>
+                        <li><a href="/registration.html">Registration</a></li>
+                    </ul>
+                </nav>
+            </header>
+            <nav>
+                <ul>
+                    <li><a href="/index.html" >Home</a></li>
+                    <li><a href="/news.html" >News</a></li>
+                    <li><a href="/about.html" >About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="registration-container">
+            <hgroup>
+                <h1>Authorization</h1>
+                <h3>You can authorize here</h3>
+            </hgroup>
+            <form
+                    id="registration_form"
+                    style="max-width: 500px; align-self: center ">
+                <div>
+                    <label for="login">
+                        login:
+                        <input type="text" id="login" name="login"><br>
+                    </label>
+                    <label for="pass">
+                        password:
+                        <input type="password" id="pass" name="pass">
+                    </label>
+                    <label for="repeat_pass">
+                        repeat password:
+                        <input type="password" id="repeat_pass" name="repeat_pass">
+                    </label>
+                    <label for="email">
+                        email:
+                        <input type="email" id="email" name="email">
+                    </label>
+                </div>
+                <button id="submit" type="submit">Register</button>
+                <div id="validationContainer"></div>
+            </form>
+        </div>
+
+    </body>
+    <script src="registrationHandler.js"></script>
+</html>
