@@ -12,23 +12,30 @@
         <title>Admin</title>
     </head>
     <body>
-    <div class="container">
-        <header>
-            <h1>Administration page</h1>
+        <div class="container">
+            <header>
+                <h1>Administration page</h1>
+                <nav>
+                    <ul>
+                        <li><a href="#l">Manage site</a></li>
+                        <li><a href="#">Provide roles</a></li>
+                    </ul>
+                </nav>
+            </header>
             <nav>
                 <ul>
-                    <li><a href="#l">Manage site</a></li>
-                    <li><a href="#">Provide roles</a></li>
+                    <li><a href="/index.html" role="button">Home</a></li>
+                    <li><a href="/news.html" >News</a></li>
+                    <li><a href="/about.html" >About Us</a></li>
                 </ul>
             </nav>
-        </header>
-        <nav>
-            <ul>
-                <li><a href="/index.html" role="button">Home</a></li>
-                <li><a href="/news.html" >News</a></li>
-                <li><a href="/about.html" >About Us</a></li>
-            </ul>
-        </nav>
-    </div>
+
+            <button id="getDataBtn">Get Data From DB</button>
+            <div id="containerOutput" class="container data-output">
+
+            </div>
+        </div>
+        <script src="adminHandler.js"></script>
     </body>
+
 </html>

@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const mongoDBModule = require('./modules/mongodb');
 
 const app = express();
 const router = express.Router();
@@ -33,6 +34,12 @@ const loggerPath = `logs/logs_${getCurrentDateString()}.txt`;
 router.route(['/', '/home', '/index.html'])
     .get((req, res) => {
         res.sendFile(pagesPaths.index);
+    })
+
+router.route('/getDBData')
+    .get(async (req, res) => {
+
+        res.send(await getDBData())
     })
 
 router.route(/\/\w*/)
@@ -84,6 +91,8 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 })
 
+
+
 function checkAdminAuthorization(authData) {
     return (authData.login === adminCredentials.login) && (authData.pass === adminCredentials.password);
 }
@@ -123,4 +132,12 @@ function logToFile(request, logHeader = 'Log', needBody = false) {
     fs.appendFile(loggerPath, data, function(err){
         console.log('registration data wrote');
     });
+}
+
+async function getDBData() {
+    let data = '';
+    await mongoDBModule.connectMongoDB();
+    data = await mongoDBModule.insertData();
+    await mongoDBModule.closeMongoDBConnection();
+    return data;
 }
