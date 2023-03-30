@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const mongoDBModule = require('./modules/mongodb');
+const msSQLModule = require('./modules/mssql_module');
 
 const app = express();
 const router = express.Router();
@@ -38,8 +39,7 @@ router.route(['/', '/home', '/index.html'])
 
 router.route('/getMongoData')
     .get(async (req, res) => {
-
-        res.send(await getDBData())
+        res.send(await getDBData());
     })
 
 router.route('/insertMongoData')
@@ -50,6 +50,11 @@ router.route('/insertMongoData')
 router.route('/deleteMongoData')
     .get(async (req, res) => {
         res.send(await deleteDBData())
+    })
+
+router.route('/getMSSQLData')
+    .get(async (req, res) => {
+        await msSQLModule.getAllMSSQLData(req, res);
     })
 
 router.route(/\/\w*/)
