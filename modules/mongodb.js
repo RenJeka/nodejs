@@ -9,8 +9,21 @@ const collection = db.collection(_dbCollection);
 
 
 async function insertData() {
-    await collection.insertOne(getDataToInsert());
+    return await collection.insertOne(getDataToInsert());
+}
+
+async function getAllData() {
     return JSON.stringify(await collection.find().toArray());
+}
+
+async function deleteLastItem() {
+    const currentCollection = await collection.find().toArray()
+    const lastDocument =  { ...currentCollection[currentCollection.length - 1]}
+    const options = {
+        _id: lastDocument._id
+    };
+    const deletedItem = await collection.deleteOne(options)
+    return JSON.stringify(deletedItem);
 }
 
 async function connectMongoDB() {
@@ -28,8 +41,6 @@ async function closeMongoDBConnection() {
     console.log('connection closed');
 }
 
-
-
 function randomAge(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -39,11 +50,16 @@ function getTodayDate() {
 }
 
 function getDataToInsert() {
+
+
+
     return {firstName: 'Jeka', lastName: 'Good', age: randomAge(16, 50), date: getTodayDate()}
 }
 
 module.exports = {
     connectMongoDB: connectMongoDB,
     closeMongoDBConnection: closeMongoDBConnection,
-    insertData: insertData
+    insertData: insertData,
+    getAllData: getAllData,
+    deleteLastItem: deleteLastItem
 };

@@ -36,10 +36,20 @@ router.route(['/', '/home', '/index.html'])
         res.sendFile(pagesPaths.index);
     })
 
-router.route('/getDBData')
+router.route('/getMongoData')
     .get(async (req, res) => {
 
         res.send(await getDBData())
+    })
+
+router.route('/insertMongoData')
+    .get(async (req, res) => {
+        res.send(await insertDBData())
+    })
+
+router.route('/deleteMongoData')
+    .get(async (req, res) => {
+        res.send(await deleteDBData())
     })
 
 router.route(/\/\w*/)
@@ -137,7 +147,25 @@ function logToFile(request, logHeader = 'Log', needBody = false) {
 async function getDBData() {
     let data = '';
     await mongoDBModule.connectMongoDB();
-    data = await mongoDBModule.insertData();
+    data = await mongoDBModule.getAllData();
+    await mongoDBModule.closeMongoDBConnection();
+    return data;
+}
+
+async function insertDBData() {
+    let data = '';
+    await mongoDBModule.connectMongoDB();
+    await mongoDBModule.insertData();
+    data = await mongoDBModule.getAllData();
+    await mongoDBModule.closeMongoDBConnection();
+    return data;
+}
+
+async function deleteDBData() {
+    let data = '';
+    await mongoDBModule.connectMongoDB();
+    await mongoDBModule.deleteLastItem();
+    data = await mongoDBModule.getAllData();
     await mongoDBModule.closeMongoDBConnection();
     return data;
 }

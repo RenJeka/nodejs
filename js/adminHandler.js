@@ -1,10 +1,23 @@
-const getDataBtn = document.querySelector('#getDataBtn');
+const getDataMongoDBBtn = document.querySelector('#getDataMongoDBBtn');
+const insertDataMongoDBBtn = document.querySelector('#insertDataMongoDBBtn');
+const deleteDataMongoDBBtn = document.querySelector('#deleteDataMongoDBBtn');
 const containerOutput = document.querySelector('#containerOutput');
 
-getDataBtn.addEventListener('click', async () => {
-    console.log('getDataBtn clicked!');
+getDataMongoDBBtn.addEventListener('click', async () => {
+    let response = await fetch('/getMongoData');
+    const data = JSON.stringify(await response.json());
+    containerOutput.innerHTML = data;
+});
 
-    let response = await fetch('/getDBData');
+insertDataMongoDBBtn.addEventListener('click', async () => {
+    let response = await fetch('/insertMongoData');
+    const data = JSON.stringify(await response.json());
+    containerOutput.innerHTML = data;
+});
+
+
+deleteDataMongoDBBtn.addEventListener('click', async () => {
+    let response = await fetch('/deleteMongoData');
     const data = JSON.stringify(await response.json());
     containerOutput.innerHTML = data;
 });

@@ -2,13 +2,11 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport"
-              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
         <link rel="stylesheet" href="pico.min.css">
         <link rel="stylesheet" href="common.css">
+        <link rel="stylesheet" href="admin.css">
         <title>Admin</title>
     </head>
     <body>
@@ -30,8 +28,12 @@
                 </ul>
             </nav>
 
-            <button id="getDataBtn">Get Data From DB</button>
-            <div id="containerOutput" class="container data-output">
+            <div class="grid">
+                <button id="getDataMongoDBBtn">Get Data From MongoDB</button>
+                <button class="btn_green" id="insertDataMongoDBBtn">Insert Data to MongoDB</button>
+                <button class="btn_red" id="deleteDataMongoDBBtn">Delete last item from MongoDB</button>
+            </div>
+                <div id="containerOutput" class="container data-output">
 
             </div>
         </div>
