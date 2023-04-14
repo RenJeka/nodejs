@@ -30,7 +30,7 @@ const pool = mysql.createPool({
     host            : 'localhost',
     user            : 'root',
     password        : '123456',
-    database        : 'testdb',
+    database        : 'nodejs_portfolio',
     // createDatabaseTable: false,
     // schema: {
     //     tableName: `${tableName}_session`,
