@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include('./partials/head'); %>
+        <title>add</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <form id="add_item_form">
+                <h3>Add item!</h3>
+                <div>
+                    <label>Name: <input name="name" type="text" required /></label>
+                </div>
+                <div>
+                    <label>Description: <input name="description" type="text"/></label>
+                </div>
+                <div>
+                    <label>Completed: <input name="completed" type="checkbox"/></label>
+                </div>
+                <div>
+                    <button id="send_btn" type="submit">Apply</button>
+                    <h5 id="errorMsg" class="error-message"></h5>
+                </div>
+            </form>
+        </div>
+    </body>
+    <script src="/javascripts/addItem.js"></script>
+</html>

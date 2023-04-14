@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./partials/head'); %>
+    <title>App</title>
+  </head>
+  <body>
+    <header>
+      <h1>ToDo List for  <%= additionalInfo.userName %></h1>
+      <nav><li><a href="/logout">Logout</a></li></nav>
+    </header>
+    <main class="container">
+
+      <table role="grid">
+        <thead>
+          <tr>
+            <%# buttons ?  ' <th class="edit-column"></th>' :  ' '  %>
+            <th class="edit-column"></th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Completed</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        <% data.forEach((item) => { %>
+          <tr>
+
+              <td class="edit-column">
+               <% if (buttons) { %>
+                <a  class="table-btn table-btn_edit icon-pencil" data-item-id='<%= item.id %>'></a>
+                <a  class="table-btn table-btn_remove icon-bin" data-item-id="<%= item.id %>"></a>
+               <% } %>
+              </td>
+
+            <td>
+              <%= item.name %>
+            </td>
+            <td><%= item.description %></td>
+            <td><%- item.completed ? 'yes' : 'no' %> </td>
+          </tr>
+        <% }); %>
+
+        </tbody>
+      </table>
+      <div class="container">
+        <%- buttons ?  ' <a href="add" role="button">Add item!</a> \
+					     <a href="/" role="button">Done!</a>'
+                    :  ' <a href="editAll" role="button">Edit items!</a>'
+        %>
+      </div>
+<!--      <div class="container">-->
+<!--        <p>Number of requests: <span><%# additionalInfo. %> </span></p>-->
+<!--      </div>-->
+    </main>
+
+
+
+  </body>
+  <script src="/javascripts/home.js"></script>
+</html>

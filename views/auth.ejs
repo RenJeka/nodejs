@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <%- include('./partials/head'); %>
+        <title>Log-in</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <header>
+                <h1>Authorization page</h1>
+            </header>
+        </div>
+
+        <div class="login-container">
+            <hgroup>
+                <h1>Authorization</h1>
+                <h3>You can authorize here</h3>
+            </hgroup>
+            <form id="login_form">
+                <div class="grid">
+                    <label for="login">
+                        login:
+                        <input type="text" id="login" name="login"><br>
+                    </label>
+                    <label for="pass">
+                        password:
+                        <input type="password" id="pass" name="pass">
+                    </label>
+                </div>
+                <button id="submit" type="submit">Authorize</button>
+                <div class="container warn" id="container" ></div>
+                <div id="validationContainer"></div>
+            </form>
+            <details role="button" class="secondary">
+                <summary>A tip for authorization:</summary>
+                <h6>You can authorize, using the next credentials:</h6>
+                <ul>
+                    <li>login: <u><b>user-1</b></u> and password: <u><i>1111</i></u></li>
+                    <li>login: <u><b>user-2</b></u> and password: <u><i>2222</i></u></li>
+                    <li>login: <u><b>user-3</b></u> and password: <u><i>3333</i></u></li>
+                </ul>
+            </details>
+        </div>
+    </body>
+<script src="/javascripts/authHandler.js"></script>
+</html>

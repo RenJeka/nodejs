@@ -7,7 +7,7 @@ window.addEventListener('load', () => {
         const authFormData = new FormData(event.target);
         const value = Object.fromEntries(authFormData.entries());
 
-        let response = await fetch('/login', {
+        let response = await fetch('/auth', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -15,14 +15,10 @@ window.addEventListener('load', () => {
             body: JSON.stringify(value)
         });
 
-        if (response.status === 200) {
+        if (response.status === 200 && (await response.text()).toLowerCase() === 'logged') {
             validationContainer.classList = 'valid';
             validationContainer.innerText = 'Success!';
-            setTimeout(async () => {
-                const responseText = await response.text()
-                document.open();
-                document.write(responseText)
-            }, 1000)
+            location.href = '/';
         } else if (response.status === 401) {
             validationContainer.classList = 'invalid';
             validationContainer.innerText = 'Declined!';

@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include('./partials/head'); %>
+        <title>edit</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <form id="edit_item_form">
+                <h3>Edit item!</h3>
+                <div>
+                    <label>Name: <input name="name" type="text" value="<%= name %>" required/></label>
+                </div>
+                <div>
+                    <label>Description: <input name="description" type="text" value="<%= description %>"/></label>
+                </div>
+                <div>
+                    <label>Completed: <input name="completed" type="checkbox" <%= completed ? 'checked' : '' %>/></label>
+                </div>
+                <input type="hidden" name="itemId" value="<%= id %>">
+                <div>
+                    <button id="send_btn" type="submit">Apply</button>
+                    <h5 id="errorMsg" class="error-message"></h5>
+                </div>
+            </form>
+        </div>
+    </body>
+    <script src="/javascripts/editItem.js"></script>
+</html>
