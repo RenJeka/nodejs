@@ -12,6 +12,8 @@ router.get(['/', 'home', '/index.html'], homeController.showItemsPage);
 
 router.get('/auth', authController.showAuthPage);
 
+router.get('/reg', authController.showRegistrationPage);
+
 router.post('/auth', authController.authorizeUser);
 
 router.get('/logout', authController.logout);

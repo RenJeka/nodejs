@@ -12,6 +12,7 @@ function checkSession(req, res, next) {
 
     if (
         req.originalUrl === '/auth'
+        || req.originalUrl === '/reg'
     ) {
         next();
     } else if (!req.session.userName) {
@@ -26,6 +27,10 @@ function checkSession(req, res, next) {
 
 function showAuthPage(req, res, next) {
     res.render('auth');
+}
+
+function showRegistrationPage(req, res, next) {
+    res.render('registration');
 }
 
 function authorizeUser(req, res, next) {
@@ -79,6 +84,7 @@ function findCurrentUserByAuth(currentUserData) {
 module.exports = {
     checkSession,
     showAuthPage,
+    showRegistrationPage,
     authorizeUser,
     logout
 };

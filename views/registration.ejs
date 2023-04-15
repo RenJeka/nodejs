@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <%- include('./partials/head'); %>
+    <title>Registration</title>
+</head>
+
+    <body>
+        <div class="container">
+            <header>
+                <nav >
+                    <ul>
+                        <li><a href="/auth">Log-in</a></li>
+                        <li><a href="#" role="button">Registration</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
+
+        <div class="registration-container">
+            <hgroup>
+                <h1>Registration</h1>
+                <h3>You can register your account here</h3>
+            </hgroup>
+            <form id="registration_form">
+                <div>
+                    <label for="login">
+                        login:
+                        <input type="text" id="login" name="login"><br>
+                    </label>
+                    <label for="pass">
+                        password:
+                        <input type="password" id="pass" name="pass">
+                    </label>
+                    <label for="repeat_pass">
+                        repeat password:
+                        <input type="password" id="repeat_pass" name="repeat_pass">
+                    </label>
+                    <label for="email">
+                        email:
+                        <input type="email" id="email" name="email">
+                    </label>
+                </div>
+                <button id="submit" type="submit">Register</button>
+                <div id="validationContainer"></div>
+            </form>
+        </div>
+
+        <script src="registrationHandler.js"></script>
+    </body>
+</html>
