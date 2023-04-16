@@ -12,9 +12,11 @@ router.get(['/', 'home', '/index.html'], homeController.showItemsPage);
 
 router.get('/auth', authController.showAuthPage);
 
+router.post('/auth', authController.authorizeUser);
+
 router.get('/reg', authController.showRegistrationPage);
 
-router.post('/auth', authController.authorizeUser);
+router.post('/reg', authController.registerUser);
 
 router.get('/logout', authController.logout);
 

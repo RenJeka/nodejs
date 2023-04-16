@@ -1,3 +1,5 @@
+import {validateInput} from './validation.js';
+
 window.addEventListener('load', () => {
     const validationContainer = document.querySelector('#validationContainer');
     const registrationForm = document.querySelector("#registration_form");
@@ -9,32 +11,42 @@ window.addEventListener('load', () => {
         const authFormData = new FormData(event.target);
         const value = Object.fromEntries(authFormData.entries());
 
-        if (checkComparingPasswords()) {
-            password.setAttribute('aria-invalid', "false");
-            repeatPassword.setAttribute('aria-invalid', "false");
-            await sendData(value);
-        } else {
-            password.setAttribute('aria-invalid', "true");
-            repeatPassword.setAttribute('aria-invalid', "true");
+        // Validation
+        const isFormValid = validateInput(registrationForm, ['login', 'pass', 'repeat_pass'], validationContainer);
+
+        if (!isFormValid || !checkComparingPasswords()) {
+            return;
         }
+
+        await sendData(value);
 
     };
 
     function checkComparingPasswords() {
-        console.log('pass: ', password.value);
-        console.log('repeatPassword: ', repeatPassword.value);
 
-        return password.value === repeatPassword.value;
+        const isPasswordsEquals = password.value?.trim() === repeatPassword.value?.trim();
+
+        if (isPasswordsEquals) {
+            password.setAttribute('aria-invalid', "false");
+            repeatPassword.setAttribute('aria-invalid', "false");
+        } else {
+            password.setAttribute('aria-invalid', "true");
+            repeatPassword.setAttribute('aria-invalid', "true");
+            validationContainer.classList = 'invalid';
+            validationContainer.innerText = `Fields 'password' and 'repeat password' dont much! `;
+        }
+        return isPasswordsEquals;
     }
 
     async function sendData(data) {
-        let response = await fetch('/registration', {
+        let response = await fetch('/reg', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
             },
             body: JSON.stringify(data)
         });
+
 
         if (response.status === 200) {
             validationContainer.classList = 'valid';

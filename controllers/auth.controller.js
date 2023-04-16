@@ -42,6 +42,12 @@ function authorizeUser(req, res, next) {
     }
 }
 
+function registerUser(req, res, next) {
+    // tslint:disable-next-line:no-console
+    console.log(JSON.stringify(req.body));
+
+}
+
 function logout(req, res) {
     delete req.session.userName;
     res.redirect(307,'/');
@@ -86,5 +92,6 @@ module.exports = {
     showAuthPage,
     showRegistrationPage,
     authorizeUser,
+    registerUser,
     logout
 };

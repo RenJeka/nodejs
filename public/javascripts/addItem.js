@@ -1,3 +1,4 @@
+import {validateInput} from './validation.js';
 window.addEventListener('load', () => {
 
     const errorContainer = document.querySelector('#errorMsg');
@@ -6,25 +7,20 @@ window.addEventListener('load', () => {
 
         event.preventDefault();
 
-        const formElements = event.target?.elements;
+        const isFormValid = validateInput(addItemForm, ['name'], errorContainer);
 
-        // Form validation
-        if (formElements.name.value.trim().length === 0) {
-            formElements.name.setAttribute('aria-invalid', 'true');
-            errorContainer.classList = 'invalid';
-            errorContainer.innerText = 'Please, fill all inputs!';
-            return;
+        if (!isFormValid) {
+            return
         }
-        formElements.name.setAttribute('aria-invalid', 'false');
 
         const formData = {
-            name: formElements.name?.value.trim(),
-            description: formElements.description?.value.trim(),
+            name: addItemForm.elements.name?.value.trim(),
+            description: addItemForm.elements.description?.value.trim(),
             get completed() {
-                return formElements.completed.checked ? 1 : 0
+                return addItemForm.elements.completed.checked ? 1 : 0
             }
         };
-        
+
         const result = await fetch('/add', {
             method: 'POST',
             headers: {

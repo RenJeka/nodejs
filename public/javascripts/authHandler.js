@@ -1,4 +1,4 @@
-import validateInput from './validation';
+import {validateInput} from './validation.js';
 window.addEventListener('load', () => {
     const validationContainer = document.querySelector('#validationContainer');
     const loginForm = document.querySelector("#login_form");
@@ -8,12 +8,18 @@ window.addEventListener('load', () => {
         const authFormData = new FormData(event.target);
         const value = Object.fromEntries(authFormData.entries());
 
+        const isFormValid = validateInput(loginForm, ['login', 'pass'], validationContainer);
+
+        if (!isFormValid) {
+            return
+        }
+
         let response = await fetch('/auth', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
             },
-            body: JSON.stringify(value)
+            body: JSON.stringify(value),
         });
 
         if (response.status === 200 && (await response.text()).toLowerCase() === 'logged') {
