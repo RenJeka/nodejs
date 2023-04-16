@@ -26,11 +26,11 @@
                 <div class="grid">
                     <label for="login">
                         login:
-                        <input type="text" id="login" name="login"><br>
+                        <input type="text" id="login" name="login" required><br>
                     </label>
                     <label for="pass">
                         password:
-                        <input type="password" id="pass" name="pass">
+                        <input type="password" id="pass" name="pass" required>
                     </label>
                 </div>
                 <button id="submit" type="submit">Authorize</button>
@@ -48,5 +48,6 @@
             </details>
         </div>
     </body>
-<script src="/javascripts/authHandler.js"></script>
+<script  src="/javascripts/authHandler.js" type="module" ></script>
+<script src="/javascripts/validation.js" type="module" ></script>
 </html>

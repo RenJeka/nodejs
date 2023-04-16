@@ -1,3 +1,4 @@
+import validateInput from './validation';
 window.addEventListener('load', () => {
     const validationContainer = document.querySelector('#validationContainer');
     const loginForm = document.querySelector("#login_form");
