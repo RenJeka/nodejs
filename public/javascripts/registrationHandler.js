@@ -56,7 +56,7 @@ window.addEventListener('load', () => {
                 window.location = '/auth.html';
             }, 500)
         } else {
-            validationContainer.innerText = await response.text();
+            validationContainer.innerText = responseText;
             validationContainer.classList = 'invalid';
         }
     }

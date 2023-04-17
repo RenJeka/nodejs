@@ -35,7 +35,12 @@ async function authorizeUser(req, res, next) {
 }
 
 async function registerUser(req, res, next) {
+
     try {
+        if (await isUserPresent(req.body?.login)) {
+            res.status(400).end(`User already exist!`);
+            return;
+        }
         const usersId = await usersQueries.addUser(req.body);
         if (usersId && usersId >= 0) {
             res.status(200).end('registered');
