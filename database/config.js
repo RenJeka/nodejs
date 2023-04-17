@@ -4,8 +4,8 @@ const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const util = require('util');
 
-const todosTableName = 'todos';
-const usersTableName = 'users';
+const todosTableName = process.env.DB_TABLE_NAME_TODOS;
+const usersTableName = process.env.DB_TABLE_NAME_USERS;
 
 const todosTableColumns = {
     id: 'id',
@@ -46,10 +46,10 @@ const showTablesQuery = 'SHOW TABLES';
 
 const pool = mysql.createPool({
     connectionLimit : 10,
-    host            : 'localhost',
-    user            : 'root',
-    password        : '123456',
-    database        : 'nodejs_portfolio',
+    host            : process.env.DB_HOST,
+    user            : process.env.DB_USER,
+    password        : process.env.DB_PASSWORD,
+    database        : process.env.DB_NAME,
     // createDatabaseTable: false,
     // schema: {
     //     tableName: `${tableName}_session`,
