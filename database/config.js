@@ -4,8 +4,10 @@ const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const util = require('util');
 
-const tableName = 'todos';
-const tableColumns = {
+const todosTableName = 'todos';
+const usersTableName = 'users';
+
+const todosTableColumns = {
     id: 'id',
     name: 'name',
     description: 'description',
@@ -13,15 +15,32 @@ const tableColumns = {
     username: 'username'
 };
 
-const createTableQuery = `CREATE TABLE ?? (
-                            ${tableColumns.id} int NOT NULL AUTO_INCREMENT,
-                            ${tableColumns.name} varchar(50) NOT NULL,
-                            ${tableColumns.description} varchar(200) DEFAULT NULL,
-                            ${tableColumns.completed} tinyint NOT NULL DEFAULT '0',
-                            ${tableColumns.username} varchar(100) NOT NULL,
+const createTodosTableQuery = `CREATE TABLE ?? (
+                            ${todosTableColumns.id} int NOT NULL AUTO_INCREMENT,
+                            ${todosTableColumns.name} varchar(50) NOT NULL,
+                            ${todosTableColumns.description} varchar(200) DEFAULT NULL,
+                            ${todosTableColumns.completed} tinyint NOT NULL DEFAULT '0',
+                            ${todosTableColumns.username} varchar(100) NOT NULL,
                             PRIMARY KEY (id),
                             UNIQUE KEY id_UNIQUE (id)
                         ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='table for users todo items';`
+
+
+const usersTableColumns = {
+    id: 'id',
+    login: 'login',
+    password: 'password',
+    email: 'email'
+};
+
+const createUsersTableQuery = `CREATE TABLE ?? (
+                            ${usersTableColumns.id} int NOT NULL AUTO_INCREMENT,
+                            ${usersTableColumns.login} varchar(100) NOT NULL,
+                            ${usersTableColumns.password} varchar(100) NOT NULL,
+                            ${usersTableColumns.email} varchar(100) DEFAULT NULL,
+                            PRIMARY KEY (id),
+                            UNIQUE KEY id_UNIQUE (id)
+                        ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='table for users credentials';`
 
 const showTablesQuery = 'SHOW TABLES';
 
@@ -52,10 +71,9 @@ sessionStore.onReady().then( async () => {
     try {
         const connection = await getConnectionAsync();
         const closeConnectionAsync = util.promisify(connection.release).bind(connection);
-        await createTableIfNotExist(connection, tableName);
+        await createTableIfNotExist(connection, todosTableName, createTodosTableQuery);
+        await createTableIfNotExist(connection, usersTableName, createUsersTableQuery);
         await closeConnectionAsync();
-        console.log(colors.bgGreen(`table ${tableName} successfully created!`));
-
     } catch(error) {
         console.log(error)
     }
@@ -66,13 +84,18 @@ sessionStore.onReady().then( async () => {
     console.error(error);
 });
 
-async function createTableIfNotExist(connection, tableName) {
+async function createTableIfNotExist(connection, tableName, createTableQuery) {
     const sqlQueryAsync = util.promisify(connection.query).bind(connection);
     if (await checkTable(sqlQueryAsync)) {
-        console.log(`Table "${tableName}" already exist!`);
+        console.log(colors.magenta(`Table "${tableName}" already exist!`));
         return true;
     } else {
-        await createTable(sqlQueryAsync, tableName);
+        try {
+            await createTable(sqlQueryAsync, tableName, createTableQuery);
+            console.log(colors.magenta(`table "${tableName}" successfully created!`));
+        } catch(error) {
+            console.log(error)
+        }
     }
 
 
@@ -91,10 +114,10 @@ async function createTableIfNotExist(connection, tableName) {
         }
     }
 
-    async function createTable(queryAsync, tableName) {
+    async function createTable(queryAsync, tableName, creatingTableQuery) {
         // prepare query
         const inserts = [tableName];
-        const preparedQuery = mysql.format(createTableQuery, inserts);
+        const preparedQuery = mysql.format(creatingTableQuery, inserts);
         try {
             await queryAsync(preparedQuery)
         } catch(error) {
@@ -123,6 +146,14 @@ async function createTableIfNotExist(connection, tableName) {
 module.exports = {
     pool,
     sessionStore,
-    tableName,
-    tableColumns
+    tables: {
+        todos: {
+            name: todosTableName,
+            columns: todosTableColumns
+        },
+        users: {
+            name: usersTableName,
+            columns: usersTableColumns
+        }
+    }
 };

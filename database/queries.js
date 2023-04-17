@@ -3,17 +3,17 @@ const colors = require('colors');
 const mysql = require("mysql");
 
 const pool = config.pool;
-const tableName = config.tableName;
-const tColumns = config.tableColumns;
+const tName = config.tables.todos.name;
+const tColumns = config.tables.todos.columns;
 
-const selectAllItemsQuery   = `SELECT * FROM ${tableName} WHERE ${tColumns.username} = ?`;
-const selectItemByIDQuery   = `SELECT * FROM ${tableName} WHERE ${tColumns.id} = ? AND ${tColumns.username} = ?`;
-const insertItemQuery       = `INSERT INTO ${tableName}(${tColumns.name}, ${tColumns.description}, ${tColumns.completed}, ${tColumns.username})
+const selectAllItemsQuery   = `SELECT * FROM ${tName} WHERE ${tColumns.username} = ?`;
+const selectItemByIDQuery   = `SELECT * FROM ${tName} WHERE ${tColumns.id} = ? AND ${tColumns.username} = ?`;
+const insertItemQuery       = `INSERT INTO ${tName}(${tColumns.name}, ${tColumns.description}, ${tColumns.completed}, ${tColumns.username})
                                 VALUES(?, ?, ?, ?)`;
-const updateItemByIDQuery   = `UPDATE ${tableName}
+const updateItemByIDQuery   = `UPDATE ${tName}
                                 SET name = ?, description = ?, completed = ?
                                 WHERE ${tColumns.id} = ? AND ${tColumns.username} = ?`;
-const deleteItemByIDQuery   = `DELETE FROM ${tableName} WHERE ${tColumns.id} = ? AND ${tColumns.username} = ?`;
+const deleteItemByIDQuery   = `DELETE FROM ${tName} WHERE ${tColumns.id} = ? AND ${tColumns.username} = ?`;
 
 
 module.exports = {
