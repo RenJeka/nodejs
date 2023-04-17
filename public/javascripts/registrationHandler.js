@@ -47,13 +47,14 @@ window.addEventListener('load', () => {
             body: JSON.stringify(data)
         });
 
+        const responseText = await response.text();
 
-        if (response.status === 200) {
+        if (response.status === 200 && responseText === 'registered') {
             validationContainer.classList = 'valid';
-            validationContainer.innerText = await response.text();
+            validationContainer.innerText = responseText;
             setTimeout(async () => {
-                window.location = '/login.html';
-            }, 1000)
+                window.location = '/auth.html';
+            }, 500)
         } else {
             validationContainer.innerText = await response.text();
             validationContainer.classList = 'invalid';

@@ -63,19 +63,20 @@ const pool = mysql.createPool({
 
 const sessionStore = new MySQLStore({}/* session store options */, pool);
 
-// Optionally use onReady() to get a promise that resolves when store is ready.
 sessionStore.onReady().then( async () => {
     // MySQL session store ready for use.
     const getConnectionAsync = util.promisify(pool.getConnection).bind(pool);
 
+    // Creating working tables
     try {
         const connection = await getConnectionAsync();
-        const closeConnectionAsync = util.promisify(connection.release).bind(connection);
+        // const closeConnectionAsync = util.promisify(connection.release).bind(connection);
         await createTableIfNotExist(connection, todosTableName, createTodosTableQuery);
         await createTableIfNotExist(connection, usersTableName, createUsersTableQuery);
-        await closeConnectionAsync();
+        // await closeConnectionAsync();
+        connection.release();
     } catch(error) {
-        console.log(error)
+        console.error(error)
     }
 
 
@@ -94,7 +95,7 @@ async function createTableIfNotExist(connection, tableName, createTableQuery) {
             await createTable(sqlQueryAsync, tableName, createTableQuery);
             console.log(colors.magenta(`table "${tableName}" successfully created!`));
         } catch(error) {
-            console.log(error)
+            console.error(error)
         }
     }
 
@@ -110,7 +111,7 @@ async function createTableIfNotExist(connection, tableName, createTableQuery) {
                 .map(tableItem => Object.values(tableItem))
                 .flat();
         } catch(error) {
-            console.log('Error while getting existing tables: ', error);
+            console.error('Error while getting existing tables: ', error);
         }
     }
 
@@ -121,7 +122,7 @@ async function createTableIfNotExist(connection, tableName, createTableQuery) {
         try {
             await queryAsync(preparedQuery)
         } catch(error) {
-            console.log(`Error while creating table "${tableName}": `, error)
+            console.error(`Error while creating table "${tableName}": `, error)
         }
 
     }
@@ -133,7 +134,7 @@ async function createTableIfNotExist(connection, tableName, createTableQuery) {
 // });
 //
 // pool.on('connection', function (connection) {
-//     console.log(colors.red('pool connection'));
+//     console.log(colors.red(`pool connection:  ${connection}`));
 // });
 //
 // pool.on('enqueue', function () {

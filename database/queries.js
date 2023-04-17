@@ -127,8 +127,6 @@ module.exports = {
             const itemId = req.params.id;
             if (!itemId) throw new Error(`Item ID Not found , please provide correct item ID!`);
 
-            console.log(colors.yellow(JSON.stringify(req.body)));
-
             if (parseInt(req.params.id) !== parseInt(req.body.id)) {
                 throw new Error("incorrectly passed ID. Please, check passed ID of item");
             }

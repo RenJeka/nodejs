@@ -1,14 +1,7 @@
-
+const usersQueries = require('../database/usersQueries');
 const colors = require('colors');
 
-const userAuthData = [
-    {login: 'user-1', pass: '1111'},
-    {login: 'user-2', pass: '2222'},
-    {login: 'user-3', pass: '3333'}
-
-];
-
-function checkSession(req, res, next) {
+async function checkSession(req, res, next) {
 
     if (
         req.originalUrl === '/auth'
@@ -17,8 +10,7 @@ function checkSession(req, res, next) {
         next();
     } else if (!req.session.userName) {
         res.redirect(307, '/auth');
-        // showAuthPage(req, res);
-    } else if (isUserPresent(req.session.userName)){
+    } else if (await isUserPresent(req.session.userName)){
         next();
     } else {
         res.status(401).end(`Can't find such user '${req.session.userName}'.`);
@@ -33,19 +25,26 @@ function showRegistrationPage(req, res, next) {
     res.render('registration');
 }
 
-function authorizeUser(req, res, next) {
+async function authorizeUser(req, res, next) {
 
-    if (handleSession(req)) {
+    if (await handleSession(req)) {
         res.status(200).end('logged');
     } else {
         res.status(401).end(`Can\'t find user \'${req.body.login}\' with such password. Please try other!`);
     }
 }
 
-function registerUser(req, res, next) {
-    // tslint:disable-next-line:no-console
-    console.log(JSON.stringify(req.body));
-
+async function registerUser(req, res, next) {
+    try {
+        const usersId = await usersQueries.addUser(req.body);
+        if (usersId && usersId >= 0) {
+            res.status(200).end('registered');
+        } else {
+            res.status(500).end(`Something wrong with while registration user!`);
+        }
+    } catch(error) {
+        console.error(`Error while registration user (${JSON.stringify(body)}) : ${error}`)
+    }
 }
 
 function logout(req, res) {
@@ -53,8 +52,8 @@ function logout(req, res) {
     res.redirect(307,'/');
 }
 
-function handleSession(req) {
-    const userData = getUserData(req.body)
+async function handleSession(req) {
+    const userData = await getUserData(req.body)
     if (userData) {
         req.session.userName = userData.login;
         return true;
@@ -64,9 +63,9 @@ function handleSession(req) {
 }
 
 
-function getUserData(authData) {
+async function getUserData(authData) {
 
-    const userData = findCurrentUserByAuth(authData)
+    const userData = await findCurrentUserByAuth(authData)
 
     if (userData) {
         return userData;
@@ -75,15 +74,17 @@ function getUserData(authData) {
     }
 }
 
-function isUserPresent(userLogin) {
-    return !!userAuthData.find((userData) => {
+async function isUserPresent(userLogin) {
+    const allUsers = await usersQueries.getAllUsers();
+    return !!allUsers.find((userData) => {
         return userData.login === userLogin
     });
 }
 
-function findCurrentUserByAuth(currentUserData) {
-    return userAuthData.find((userData) => {
-        return userData.login === currentUserData.login && userData.pass === currentUserData.pass
+async function findCurrentUserByAuth(currentUserData) {
+    const allUsers = await usersQueries.getAllUsers();
+    return allUsers.find((userData) => {
+        return userData.login === currentUserData.login && userData.password === currentUserData.pass
     });
 }
 
