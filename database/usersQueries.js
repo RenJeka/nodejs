@@ -1,6 +1,7 @@
-const config = require('./config');
 const colors = require('colors');
 const mysql = require('mysql');
+const bcrypt = require('bcryptjs');
+const config = require('./config');
 const dbHelper = require('./dbHelper');
 
 const tName = config.tables.users.name;
@@ -31,17 +32,22 @@ module.exports = {
 
     },
     addUser: async function (body) {
+
         const itemToAdd = {
             login: body.login?.toString().trim(),
             password: body.pass?.toString().trim(),
             email: body.email?.toString().trim()
         };
 
+
         // fields validation on server
         if (!itemToAdd.login || !itemToAdd.password) {
             res.status(400).end('Incorrect form data');
             return;
         }
+
+        // hashing password
+        itemToAdd.password = bcrypt.hashSync(itemToAdd.password, 7);
 
         const preparedQuery = mysql.format(
             insertUserQuery,

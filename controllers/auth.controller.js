@@ -1,5 +1,6 @@
-const usersQueries = require('../database/usersQueries');
+const bcrypt = require('bcryptjs');
 const colors = require('colors');
+const usersQueries = require('../database/usersQueries');
 
 async function checkSession(req, res, next) {
 
@@ -88,9 +89,15 @@ async function isUserPresent(userLogin) {
 
 async function findCurrentUserByAuth(currentUserData) {
     const allUsers = await usersQueries.getAllUsers();
-    return allUsers.find((userData) => {
-        return userData.login === currentUserData.login && userData.password === currentUserData.pass
-    });
+
+    for (const userData of allUsers) {
+        const isPasswordsEquals = await bcrypt.compare(currentUserData.pass, userData.password);
+        if (userData.login === currentUserData.login && isPasswordsEquals) {
+            return userData;
+        }
+    }
+
+    return null;
 }
 
 module.exports = {
