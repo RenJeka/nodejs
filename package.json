@@ -7,7 +7,7 @@
     "watch": "tsc -w",
     "dev": "npx nodemon",
     "clear": "rimraf ./build",
-    "copy": "copyfiles -u 1 -e \"./**/*.js\" -e \"./**/*.ts\" \"src/**/*\" \"build/\"",
+    "copy": "copyfiles -u 1 -e \"src/**/*.js\" -e \"src/**/*.ts\" \"src/**/*\" \"build/\"",
     "build": "npm run clear && npx tsc && npm run copy",
     "start": "npm run build && node build/bin/www.js",
     "start-js": "nodemon ./build/bin/www.js",
