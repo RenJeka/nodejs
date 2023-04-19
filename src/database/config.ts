@@ -1,8 +1,9 @@
-const mysql = require('mysql');
-const colors = require('colors');
-const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session);
-const util = require('util');
+import mysql from "mysql";
+import colors from "colors";
+import session from "express-session";
+import util from "util";
+import EMS from "express-mysql-session"
+const MySQLStore = EMS(session);
 
 const todosTableName = process.env.DB_TABLE_NAME_TODOS;
 const usersTableName = process.env.DB_TABLE_NAME_USERS;
@@ -44,7 +45,7 @@ const createUsersTableQuery = `CREATE TABLE ?? (
 
 const showTablesQuery = 'SHOW TABLES';
 
-const pool = mysql.createPool({
+const poolConfig = {
     connectionLimit : 10,
     host            : process.env.DB_HOST,
     user            : process.env.DB_USER,
@@ -59,7 +60,14 @@ const pool = mysql.createPool({
     //         data: 'data'
     //     }
     // }
-});
+};
+
+
+console.log("process.env: ", process.env)
+
+const pool = mysql.createPool(poolConfig);
+
+console.log("DB pool: ", pool)
 
 const sessionStore = new MySQLStore({}/* session store options */, pool);
 
@@ -144,9 +152,9 @@ async function createTableIfNotExist(connection, tableName, createTableQuery) {
 // pool.on('release', function (connection) {
 //     console.log(colors.red('Connection %d released'), connection.threadId);
 // });
-module.exports = {
-    pool,
-    sessionStore,
+export default  {
+    pool: pool,
+    sessionStore: sessionStore,
     tables: {
         todos: {
             name: todosTableName,

@@ -1,8 +1,8 @@
-const colors = require('colors');
-const mysql = require('mysql');
-const bcrypt = require('bcryptjs');
-const config = require('./config');
-const dbHelper = require('./dbHelper');
+import colors from 'colors';
+import mysql from 'mysql';
+import bcrypt from 'bcryptjs';
+import config from './config.js';
+import dbHelper from './dbHelper.js';
 
 const tName = config.tables.users.name;
 const tColumns = config.tables.users.columns;
@@ -21,7 +21,7 @@ async function updateAllUsers() {
     }
 }
 
-module.exports = {
+export default {
     getAllUsers: async function () {
         if (currentUsers?.length > 0 ) {
             return currentUsers;
@@ -42,8 +42,7 @@ module.exports = {
 
         // fields validation on server
         if (!itemToAdd.login || !itemToAdd.password) {
-            res.status(400).end('Incorrect form data');
-            return;
+            return false;
         }
 
         // hashing password

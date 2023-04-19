@@ -1,10 +1,11 @@
-const { Router } = require('express');
-const colors = require('colors');
+import { Router } from "express";
+import colors from "colors";
+
 const router = Router();
-const homeController = require('../controllers/home.controller');
-const authController = require('../controllers/auth.controller');
-const addController = require('../controllers/add.controller');
-const editController = require('../controllers/edit.controller');
+import homeController from '../controllers/home.controller.js';
+import authController from '../controllers/auth.controller.js';
+import addController from '../controllers/add.controller.js';
+import editController from '../controllers/edit.controller.js';
 
 /* GET home page. */
 
@@ -32,4 +33,4 @@ router.put('/edit/:id', editController.changeItem);
 
 router.delete('/edit/:id', editController.removeItem);
 
-module.exports = router;
+export default router;

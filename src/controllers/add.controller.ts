@@ -1,4 +1,4 @@
-const queries = require('../database/queries');
+import queries from '../database/queries.js';
 
 function showAddPage(req, res, next) {
     res.render('add_item');
@@ -8,7 +8,7 @@ function addNewItem(req, res, next) {
     queries.addItem(req, res);
 }
 
-module.exports = {
+export default {
     showAddPage,
     addNewItem
 };

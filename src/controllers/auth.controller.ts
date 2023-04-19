@@ -1,6 +1,6 @@
-const bcrypt = require('bcryptjs');
-const colors = require('colors');
-const usersQueries = require('../database/usersQueries');
+import bcrypt from 'bcryptjs';
+import colors from 'colors';
+import usersQueries from '../database/usersQueries.js';
 
 async function checkSession(req, res, next) {
 
@@ -49,7 +49,7 @@ async function registerUser(req, res, next) {
             res.status(500).end(`Something wrong with while registration user!`);
         }
     } catch(error) {
-        console.error(`Error while registration user (${JSON.stringify(body)}) : ${error}`)
+        console.error(`Error while registration user (${JSON.stringify(req.body)}) : ${error}`)
     }
 }
 
@@ -100,7 +100,7 @@ async function findCurrentUserByAuth(currentUserData) {
     return null;
 }
 
-module.exports = {
+export default {
     checkSession,
     showAuthPage,
     showRegistrationPage,

@@ -3,25 +3,25 @@
 /**
  * Module dependencies.
  */
-
-require('dotenv').config()
-const app = require('../app');
-const debug = require('debug')('2:server');
-const http = require('http');
-const colors = require('colors');
+import 'dotenv/config'
+import Debug from 'debug';
+const debug = Debug('2:server');
+import http from 'http';
+import colors from 'colors';
+import application  from '../app.js';
 
 /**
  * Get port from environment and store in Express.
  */
 
 const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+application.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-const server = http.createServer(app);
+const server = http.createServer(application);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -37,8 +37,8 @@ server.on('listening', onListening);
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort(val) {
-  const port = parseInt(val, 10);
+function normalizePort(val: number | string) {
+  const port = parseInt(String(val), 10);
 
   if (isNaN(port)) {
     // named pipe
@@ -89,6 +89,6 @@ function onListening() {
   const addr = server.address();
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
-    : 'port ' + addr.port;
+    : 'port ' + addr?.port;
   debug('Listening on ' + bind);
 }

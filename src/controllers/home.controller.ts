@@ -1,9 +1,9 @@
-const queries = require("../database/queries");
+import queries from "../database/queries.js";
 
 function showItemsPage(req, res, next) {
     queries.getAllItems(req, res);
 }
 
-module.exports = {
+export default {
     showItemsPage
 };

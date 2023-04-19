@@ -1,10 +1,10 @@
-const util = require("util");
-const colors = require('colors');
-const config = require('./config');
+import util from "util";
+import colors from 'colors';
+import config from './config.js';
 
 const pool = config.pool;
 
-module.exports = {
+export default {
     runDbQuery: async function (preparedSqlQuery) {
         const getConnectionAsync = util.promisify(pool.getConnection).bind(pool);
 

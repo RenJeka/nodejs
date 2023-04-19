@@ -1,15 +1,19 @@
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const session = require('express-session');
-const sessionStore = require('./database/config').sessionStore;
+import createError from 'http-errors';
+import express from 'express';
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
+import session from 'express-session';
+import { fileURLToPath } from 'url';
 
-const indexRouter = require('./routes/routes');
-const authController = require('./controllers/auth.controller');
+import config  from './database/config.js'
+import indexRouter from './routes/routes.js';
+import authController from './controllers/auth.controller.js';
 
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -18,7 +22,7 @@ app.set('view engine', 'ejs');
 app.use(session({
   key: 'todos_cookies_session',
   secret: 'todos_cookies_session_secret',
-  store: sessionStore,
+  store: config.sessionStore,
   resave: false,
   saveUninitialized: false
 }));
@@ -46,4 +50,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+export default app;

@@ -1,7 +1,6 @@
-const config = require('./config');
-const colors = require('colors');
-const mysql = require("mysql");
-
+import config from './config.js';
+import colors from "colors";
+import mysql from "mysql";
 const pool = config.pool;
 const tName = config.tables.todos.name;
 const tColumns = config.tables.todos.columns;
@@ -15,8 +14,7 @@ const updateItemByIDQuery   = `UPDATE ${tName}
                                 WHERE ${tColumns.id} = ? AND ${tColumns.username} = ?`;
 const deleteItemByIDQuery   = `DELETE FROM ${tName} WHERE ${tColumns.id} = ? AND ${tColumns.username} = ?`;
 
-
-module.exports = {
+export default {
     getAllItems: function (req, res) {
         pool.getConnection((err, connection) => {
             if (err) throw err;
