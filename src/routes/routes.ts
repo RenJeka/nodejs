@@ -2,10 +2,10 @@ import { Router } from "express";
 import colors from "colors";
 
 const router = Router();
-import homeController from '../controllers/home.controller.js';
-import authController from '../controllers/auth.controller.js';
-import addController from '../controllers/add.controller.js';
-import editController from '../controllers/edit.controller.js';
+import homeController from '../controllers/home.controller';
+import authController from '../controllers/auth.controller';
+import addController from '../controllers/add.controller';
+import editController from '../controllers/edit.controller';
 
 /* GET home page. */
 

@@ -62,12 +62,7 @@ const poolConfig = {
     // }
 };
 
-
-console.log("process.env: ", process.env)
-
 const pool = mysql.createPool(poolConfig);
-
-console.log("DB pool: ", pool)
 
 const sessionStore = new MySQLStore({}/* session store options */, pool);
 
@@ -78,10 +73,8 @@ sessionStore.onReady().then( async () => {
     // Creating working tables
     try {
         const connection = await getConnectionAsync();
-        // const closeConnectionAsync = util.promisify(connection.release).bind(connection);
         await createTableIfNotExist(connection, todosTableName, createTodosTableQuery);
         await createTableIfNotExist(connection, usersTableName, createUsersTableQuery);
-        // await closeConnectionAsync();
         connection.release();
     } catch(error) {
         console.error(error)

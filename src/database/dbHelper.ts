@@ -1,6 +1,6 @@
 import util from "util";
 import colors from 'colors';
-import config from './config.js';
+import config from './config';
 
 const pool = config.pool;
 

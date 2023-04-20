@@ -1,4 +1,4 @@
-import queries from "../database/queries.js";
+import queries from "../database/queries";
 
 function showEditPage(req, res, next) {
     queries.getItemByID(req, res);

@@ -1,8 +1,8 @@
 import colors from 'colors';
 import mysql from 'mysql';
 import bcrypt from 'bcryptjs';
-import config from './config.js';
-import dbHelper from './dbHelper.js';
+import config from './config';
+import dbHelper from './dbHelper';
 
 const tName = config.tables.users.name;
 const tColumns = config.tables.users.columns;

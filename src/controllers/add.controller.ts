@@ -1,4 +1,4 @@
-import queries from '../database/queries.js';
+import queries from '../database/queries';
 
 function showAddPage(req, res, next) {
     res.render('add_item');

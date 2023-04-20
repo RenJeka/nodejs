@@ -1,4 +1,4 @@
-import config from './config.js';
+import config from './config';
 import colors from "colors";
 import mysql from "mysql";
 const pool = config.pool;

@@ -4,16 +4,12 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import session from 'express-session';
-import { fileURLToPath } from 'url';
 
-import config  from './database/config.js'
-import indexRouter from './routes/routes.js';
-import authController from './controllers/auth.controller.js';
+import config  from './database/config'
+import indexRouter from './routes/routes';
+import authController from './controllers/auth.controller';
 
 const app = express();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

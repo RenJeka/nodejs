@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import colors from 'colors';
-import usersQueries from '../database/usersQueries.js';
+import usersQueries from '../database/usersQueries';
 
 async function checkSession(req, res, next) {
 

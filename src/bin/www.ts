@@ -8,7 +8,7 @@ import Debug from 'debug';
 const debug = Debug('2:server');
 import http from 'http';
 import colors from 'colors';
-import application  from '../app.js';
+import application  from '../app';
 
 /**
  * Get port from environment and store in Express.

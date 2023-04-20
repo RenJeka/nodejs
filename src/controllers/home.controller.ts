@@ -1,4 +1,4 @@
-import queries from "../database/queries.js";
+import queries from "../database/queries";
 
 function showItemsPage(req, res, next) {
     queries.getAllItems(req, res);
