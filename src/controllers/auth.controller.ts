@@ -46,7 +46,7 @@ async function registerUser(req, res, next) {
         if (usersId && usersId >= 0) {
             res.status(200).end('registered');
         } else {
-            res.status(500).end(`Something wrong with while registration user!`);
+            res.status(500).end(`Something wrong while registration user!`);
         }
     } catch(error) {
         console.error(`Error while registration user (${JSON.stringify(req.body)}) : ${error}`)

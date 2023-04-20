@@ -88,16 +88,16 @@ sessionStore.onReady().then( async () => {
 
 async function createTableIfNotExist(connection, tableName, createTableQuery) {
     const sqlQueryAsync = util.promisify(connection.query).bind(connection);
-    if (await checkTable(sqlQueryAsync)) {
-        console.log(colors.magenta(`Table "${tableName}" already exist!`));
-        return true;
-    } else {
-        try {
+    try {
+        if (await checkTable(sqlQueryAsync)) {
+            console.log(colors.magenta(`Table "${tableName}" already exist!`));
+            return true;
+        } else {
             await createTable(sqlQueryAsync, tableName, createTableQuery);
             console.log(colors.magenta(`table "${tableName}" successfully created!`));
-        } catch(error) {
-            console.error(error)
         }
+    } catch(error) {
+        console.error(error)
     }
 
 

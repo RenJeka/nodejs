@@ -8,9 +8,9 @@
     "clear": "rimraf ./build",
     "copy": "copyfiles -u 1 -e \"src/**/*.js\" -e \"src/**/*.ts\" \"src/**/*\" \"build/\"",
     "build": "npm run clear && npx tsc && npm run copy",
-    "start": "npm run build && node build/bin/www.js",
-    "start-js": "nodemon ./build/bin/www.js",
-    "dev-js": "nodemon --inspect ./build/bin/www.js",
+    "start": "npm run build && node build/app.js",
+    "start-js": "nodemon ./build/app.js",
+    "dev-js": "nodemon --inspect ./build/app.js",
     "test": "jest",
     "test2": "node --experimental-vm-modules node_modules/jest/bin/jest.js "
   },
