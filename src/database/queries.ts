@@ -1,5 +1,4 @@
 import config from './config';
-import colors from "colors";
 import mysql from "mysql";
 const pool = config.pool;
 const tName = config.tables.todos.name;

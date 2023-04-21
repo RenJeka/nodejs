@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs';
-import colors from 'colors';
 import usersQueries from '../database/usersQueries';
 
 async function checkSession(req, res, next) {
@@ -9,7 +8,7 @@ async function checkSession(req, res, next) {
         || req.originalUrl === '/reg'
     ) {
         next();
-    } else if (!req.session.userName) {
+    } else if (!req?.session?.userName) {
         res.redirect(307, '/auth');
     } else if (await isUserPresent(req.session.userName)){
         next();
@@ -67,7 +66,6 @@ async function handleSession(req) {
         return false;
     }
 }
-
 
 async function getUserData(authData) {
 

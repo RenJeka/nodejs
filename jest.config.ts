@@ -20,11 +20,15 @@ export default {
   // preset: 'ts-jest/presets/default-esm',
   preset: 'ts-jest',
   testEnvironment: 'node',
-  transform: {},
-  globals: {
-    'ts-jest': {
+  transform: {
+    "^.+\\.(t|j)s$": ["ts-jest", {
       tsconfig: 'backend.tsconfig.json'
-    }
-  }
+    }]
+  },
+  // globals: {
+  //   'ts-jest': {
+  //     tsconfig: 'backend.tsconfig.json'
+  //   }
+  // }
   // extensionsToTreatAsEsm: ['.ts'],
 };

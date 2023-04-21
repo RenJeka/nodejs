@@ -1,4 +1,3 @@
-import colors from 'colors';
 import mysql from 'mysql';
 import bcrypt from 'bcryptjs';
 import config from './config';
