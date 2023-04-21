@@ -1,14 +1,16 @@
 import {validateInput} from './validation.js';
 
 window.addEventListener('load', () => {
-    const validationContainer = document.querySelector('#validationContainer');
-    const registrationForm = document.querySelector("#registration_form");
-    const password = document.querySelector("#pass");
-    const repeatPassword = document.querySelector("#repeat_pass");
+    const validationContainer: HTMLDivElement = <HTMLDivElement>document.querySelector('#validationContainer');
+    const registrationForm: HTMLFormElement = <HTMLFormElement>document.querySelector("#registration_form");
+    const password: HTMLInputElement = <HTMLInputElement>document.querySelector("#pass");
+    const repeatPassword: HTMLInputElement = <HTMLInputElement>document.querySelector("#repeat_pass");
 
     registrationForm.onsubmit = async (event) => {
         event.preventDefault();
-        const authFormData = new FormData(event.target);
+        const authFormData = new FormData(<HTMLFormElement>event.target);
+        // TODO: change to FormData.getAll();
+        // @ts-ignore
         const value = Object.fromEntries(authFormData.entries());
 
         // Validation
@@ -32,7 +34,7 @@ window.addEventListener('load', () => {
         } else {
             password.setAttribute('aria-invalid', "true");
             repeatPassword.setAttribute('aria-invalid', "true");
-            validationContainer.classList = 'invalid';
+            validationContainer.classList.add('invalid');
             validationContainer.innerText = `Fields 'password' and 'repeat password' dont much! `;
         }
         return isPasswordsEquals;
@@ -50,14 +52,15 @@ window.addEventListener('load', () => {
         const responseText = await response.text();
 
         if (response.status === 200 && responseText === 'registered') {
-            validationContainer.classList = 'valid';
+            validationContainer.classList.add('valid');
             validationContainer.innerText = responseText;
             setTimeout(async () => {
-                window.location = '/auth.html';
+                const win: Window = window;
+                win.location = '/auth.html';
             }, 500)
         } else {
             validationContainer.innerText = responseText;
-            validationContainer.classList = 'invalid';
+            validationContainer.classList.add('invalid');
         }
     }
 });

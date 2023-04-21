@@ -21,5 +21,10 @@ export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
   transform: {},
+  globals: {
+    'ts-jest': {
+      tsconfig: 'backend.tsconfig.json'
+    }
+  }
   // extensionsToTreatAsEsm: ['.ts'],
 };

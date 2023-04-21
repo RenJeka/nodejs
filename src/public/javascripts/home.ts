@@ -1,7 +1,8 @@
 window.addEventListener('load', () => {
-    const editBtns = document.querySelectorAll('table > tbody > tr .table-btn_edit');
-    const removeBtns = document.querySelectorAll('table > tbody > tr .table-btn_remove');
+    const editBtns: NodeListOf<HTMLLinkElement> = document.querySelectorAll('table > tbody > tr .table-btn_edit');
+    const removeBtns: NodeListOf<HTMLLinkElement> = document.querySelectorAll('table > tbody > tr .table-btn_remove');
 
+    // @ts-ignore
     for (const editBtn of editBtns) {
         editBtn.addEventListener('click', async (event) => {
             const itemId = event.target.dataset.itemId;
@@ -12,6 +13,7 @@ window.addEventListener('load', () => {
         });
     }
 
+    // @ts-ignore
     for (const removeBtn of removeBtns) {
         removeBtn.addEventListener('click', async (event) => {
             const itemId = event.target.dataset.itemId;

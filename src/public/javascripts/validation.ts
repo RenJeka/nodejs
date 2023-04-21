@@ -25,6 +25,4 @@ export function validateInput(htmlFormElement, inputsNameArr, errorContainer) {
     }
 
     return isFormValid;
-
-
 }

@@ -1,11 +1,20 @@
-import {validateInput} from './validation.js';
+import { validateInput } from './validation.js';
+
+interface AddItemFormElements {
+    name: HTMLInputElement,
+    description: HTMLInputElement,
+    completed: HTMLInputElement,
+}
+
 window.addEventListener('load', () => {
 
     const errorContainer = document.querySelector('#errorMsg');
-    const addItemForm = document.querySelector("#add_item_form");
+    const addItemForm: HTMLFormElement = <HTMLFormElement>document.querySelector("#add_item_form");
     addItemForm.addEventListener('submit', async (event) => {
 
         event.preventDefault();
+
+        const formElements: AddItemFormElements = <AddItemFormElements><unknown>addItemForm.elements;
 
         const isFormValid = validateInput(addItemForm, ['name'], errorContainer);
 
@@ -14,10 +23,10 @@ window.addEventListener('load', () => {
         }
 
         const formData = {
-            name: addItemForm.elements.name?.value.trim(),
-            description: addItemForm.elements.description?.value.trim(),
+            name: formElements.name?.value.trim(),
+            description: formElements.description?.value.trim(),
             get completed() {
-                return addItemForm.elements.completed.checked ? 1 : 0
+                return formElements.completed.checked ? 1 : 0
             }
         };
 
